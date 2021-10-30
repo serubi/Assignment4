@@ -14,6 +14,7 @@ namespace Assignment4
         // Category
         IList<Category> GetCategories();
         Category GetCategory(int Id);
+        Category CreateCategory(string Name, string Description);
         Category CreateCategory(Category category);
         bool DeleteCategory(int Id);
         bool UpdateCategory(int Id, string Name, string Description);
@@ -35,6 +36,18 @@ namespace Assignment4
 
     public class DataService : IDataService
     {
+        public Category CreateCategory(string Name, string Description)
+        {
+            var category = new Category();
+            var ctx = new NorthwindContext();
+            category.Id = ctx.Categories.Max(x => x.Id) + 1;
+            category.Name = Name;
+            category.Description = Description;
+            ctx.Add(category);
+            ctx.SaveChanges();
+            return category;
+        }
+
         public Category CreateCategory(Category category)
         {
             var newCategory = new Category();
@@ -42,9 +55,9 @@ namespace Assignment4
             newCategory.Id = ctx.Categories.Max(x => x.Id) + 1;
             newCategory.Name = category.Name;
             newCategory.Description = category.Description;
-            ctx.Add(category);
+            ctx.Add(newCategory);
             ctx.SaveChanges();
-            return category;
+            return newCategory;
         }
 
         public bool DeleteCategory(int Id)
