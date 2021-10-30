@@ -69,11 +69,20 @@ namespace WebApi.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateCategory(int id, Category update)
         {
-            _dataService.UpdateCategory(id, update.Name, update.Description);
+            if (_dataService.UpdateCategory(id, update.Name, update.Description))
+            {
+                CategoryViewModel model = GetCategoryViewModel(update);
+                return Ok(model);
+            }
 
-            CategoryViewModel model = GetCategoryViewModel(update);
+            return NotFound();
+        }
 
-            return Ok(model);
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCategory(int id)
+        {
+            if (_dataService.DeleteCategory(id)) return Ok();
+            return NotFound();
         }
     }
 }
