@@ -46,6 +46,7 @@ namespace WebApi.Controllers
         {
             return new CategoryViewModel
             {
+                Id = category.Id,
                 Url = _linkGenerator.GetUriByName(HttpContext, nameof(GetCategory), new { category.Id }),
                 Name = category.Name,
                 Description = category.Description
@@ -60,9 +61,19 @@ namespace WebApi.Controllers
                 Name = model.Name,
                 Description = model.Description
             };
-            
-            _dataService.CreateCategory(category);
-            return Created(_linkGenerator.GetUriByName(HttpContext, nameof(GetCategory), new { category.Id }), GetCategoryViewModel(category));
+
+            var returnCategory = _dataService.CreateCategory(category);
+            return Created(_linkGenerator.GetUriByName(HttpContext, nameof(GetCategory), new { returnCategory.Id }), GetCategoryViewModel(returnCategory));
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateCategory(int id, Category update)
+        {
+            _dataService.UpdateCategory(id, update.Name, update.Description);
+
+            CategoryViewModel model = GetCategoryViewModel(update);
+
+            return Ok(model);
         }
     }
 }
