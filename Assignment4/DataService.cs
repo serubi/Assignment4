@@ -123,7 +123,7 @@ namespace Assignment4
         public IList<Product> GetProductByName(string SearchQuery)
         {
             var ctx = new NorthwindContext();
-            return ctx.Products.Where(x => x.Name.Contains(SearchQuery)).ToList();
+            return ctx.Products.Include(x => x.Category).Where(x => x.Name.Contains(SearchQuery)).ToList();
         }
 
         public IList<Product> GetProducts()

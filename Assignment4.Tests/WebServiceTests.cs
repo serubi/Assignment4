@@ -131,7 +131,7 @@ namespace Assignment4.Tests
 
             Assert.Equal(HttpStatusCode.NotFound, statusCode);
         }
-#if COMMENT
+
         /* /api/products */
 
         [Fact]
@@ -192,7 +192,6 @@ namespace Assignment4.Tests
             Assert.Equal(HttpStatusCode.NotFound, statusCode);
             Assert.Equal(0, products.Count);
         }
-#endif
 
 
         // Helpers
